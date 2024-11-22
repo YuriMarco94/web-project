@@ -1,0 +1,48 @@
+image: debian:latest
+
+stages:
+  - validate
+  - plan
+  - apply
+
+variables:
+  TF_VAR_region: "us-east-1" # Região configurada no Terraform
+  TF_IN_AUTOMATION: "true"   # Habilita modo silencioso do Terraform em CI/CD
+
+before_script:
+  # Atualiza o ambiente e instala Terraform
+  - apt-get update && apt-get install -y wget unzip
+  - wget https://releases.hashicorp.com/terraform/1.5.5/terraform_1.5.5_linux_amd64.zip
+  - unzip terraform_1.5.5_linux_amd64.zip
+  - mv terraform /usr/local/bin/
+  - terraform --version
+
+validate:
+  stage: validate
+  script:
+    # Inicializa o Terraform e valida a configuração
+    - terraform init
+    - terraform fmt -check
+    - terraform validate
+
+plan:
+  stage: plan
+  script:
+    # Inicializa e cria um plano de execução
+    - terraform init
+    - terraform plan -out=tfplan
+  artifacts:
+    # Salva o plano para ser usado no próximo estágio
+    paths:
+      - tfplan
+    expire_in: 1 hour # Define tempo de expiração do arquivo armazenado
+
+apply:
+  stage: apply
+  script:
+    # Aplica o plano gerado
+    - terraform init
+    - terraform apply -auto-approve tfplan
+    # Mostra o IP público da instância EC2
+    - terraform output public_ip
+  when: manual
