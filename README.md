@@ -8,10 +8,12 @@ Estrutura do Projeto
 main.tf: Configuração principal do Terraform.
 variables.tf: Definição de variáveis (se necessário).
 outputs.tf: Saídas (como IP público da instância).
+
 Pré-requisitos
 AWS CLI configurado
 Terraform instalado
 Acesso válido à AWS
+
 Comandos Básicos
 terraform init: Inicializa o projeto.
 terraform plan: Planeja as mudanças.
