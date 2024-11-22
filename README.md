@@ -13,6 +13,4 @@ Este projeto utiliza **Terraform** para automatizar a criação e o gerenciament
 ## **Estrutura do Projeto**
 
 - **`main.tf`**: Configuração principal do Terraform.
-- **`variables.tf`**: Definição de variáveis reutilizáveis para personalizar o projeto (opcional).
-- **`outputs.tf`**: Saídas configuradas, como o **IP público** da instância EC2.
 - **`.gitlab-ci.yml`**: Arquivo de configuração do pipeline **CI/CD** no **GitLab**.
